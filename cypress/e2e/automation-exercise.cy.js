@@ -60,7 +60,7 @@ describe('Automation Exercise', () => {
         cy.get('.login-form form p').parent().should('contain', 'Your email or password is incorrect!');
     });
 
-    it.only('Test Case 4: Logout after login', () => {
+    it('Test Case 4: Logout user', () => {
         cy.visit('https://automationexercise.com');
     
         cy.contains('Signup').click();
@@ -75,4 +75,20 @@ describe('Automation Exercise', () => {
         cy.url().should('contain', 'https://automationexercise.com/login');
         cy.contains("Login to your account").should("be.visible");
     });
+
+    it.only('Test Case 5: Register user with existing email', () => {
+        cy.visit('https://automationexercise.com/')
+        cy.contains('Signup').click()
+    
+        cy.get('[data-qa="signup-name"]').type('Tester QA')
+        cy.get('[data-qa="signup-email"]').type('tester-1721346302730@mail.com')
+        cy.get('[data-qa="signup-button"]').click()
+    
+        cy.get('.signup-form form p')
+            .should('be.visible')
+            .and('contain', 'Email Address already exist!')
+    });
+
+
+    
 });
