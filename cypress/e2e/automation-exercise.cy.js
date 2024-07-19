@@ -33,4 +33,17 @@ describe('Automation Exercise', () => {
         cy.get('[data-qa="continue-button"]').click()
         cy.get('i.fa-user').parent().should('contain', fakeNome)
     });
+
+    it.only('Test Case 2: Login User with correct email and password', () => {
+        cy.visit('https://automationexercise.com');
+    
+        cy.contains('Signup').click();
+    
+        cy.get('[data-qa="login-email"]').type('tester-1721346302730@mail.com');
+        cy.get('[data-qa="login-password"]').type('12345', { log: false });
+    
+        cy.get('[data-qa="login-button"]').click();
+    
+        cy.get('i.fa-user').parent().should('contain', 'Tester QA');
+    });
 });
