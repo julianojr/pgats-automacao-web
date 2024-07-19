@@ -76,7 +76,7 @@ describe('Automation Exercise', () => {
         cy.contains("Login to your account").should("be.visible");
     });
 
-    it.only('Test Case 5: Register user with existing email', () => {
+    it('Test Case 5: Register user with existing email', () => {
         cy.visit('https://automationexercise.com/')
         cy.contains('Signup').click()
     
@@ -89,6 +89,24 @@ describe('Automation Exercise', () => {
             .and('contain', 'Email Address already exist!')
     });
 
+    it.only('Test Case 6: Contact Us Form', () => {
+        cy.visit('https://automationexercise.com/')
+        cy.contains('Contact us').click()
 
-    
+        cy.get('.contact-form h2')
+            .should('be.visible')
+            .and('have.text', 'Get In Touch')
+
+        cy.get('[data-qa="name"]').type('Tester QA')
+        cy.get('[data-qa="email"]').type('tester-1721346302730@mail.com')
+        cy.get('[data-qa="subject"]').type('Testes')
+        cy.get('[data-qa="message"]').type('Testing the contact us form')
+
+        cy.fixture('example.json').as('arquivo')
+        cy.get('input[name="upload_file"]').selectFile('@arquivo')
+        cy.get('[data-qa="submit-button"]').click()
+
+        cy.get('.status').should('have.text', 'Success! Your details have been submitted successfully.');
+    });
+
 });
