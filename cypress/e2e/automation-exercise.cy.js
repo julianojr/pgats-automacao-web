@@ -34,7 +34,7 @@ describe('Automation Exercise', () => {
         cy.get('i.fa-user').parent().should('contain', fakeNome)
     });
 
-    it.only('Test Case 2: Login User with correct email and password', () => {
+    it('Test Case 2: Login User with correct email and password', () => {
         cy.visit('https://automationexercise.com');
     
         cy.contains('Signup').click();
@@ -45,5 +45,34 @@ describe('Automation Exercise', () => {
         cy.get('[data-qa="login-button"]').click();
     
         cy.get('i.fa-user').parent().should('contain', 'Tester QA');
+    });
+
+    it('Test Case 3: Login User with incorrect email and password', () => {
+        cy.visit('https://automationexercise.com');
+    
+        cy.contains('Signup').click();
+    
+        cy.get('[data-qa="login-email"]').type('tester-1721346302730@mail.com');
+        cy.get('[data-qa="login-password"]').type('54321');
+    
+        cy.get('[data-qa="login-button"]').click();
+    
+        cy.get('.login-form form p').parent().should('contain', 'Your email or password is incorrect!');
+    });
+
+    it.only('Test Case 4: Logout after login', () => {
+        cy.visit('https://automationexercise.com');
+    
+        cy.contains('Signup').click();
+    
+        cy.get('[data-qa="login-email"]').type('tester-1721346302730@mail.com');
+        cy.get('[data-qa="login-password"]').type('12345', { log: false });
+    
+        cy.get('[data-qa="login-button"]').click();
+
+        cy.contains('Logout').click();
+    
+        cy.url().should('contain', 'https://automationexercise.com/login');
+        cy.contains("Login to your account").should("be.visible");
     });
 });
