@@ -109,7 +109,7 @@ describe('Automation Exercise', () => {
         cy.get('.status').should('have.text', 'Success! Your details have been submitted successfully.');
     });
 
-    it.only('Test Case 8: Verify All Products and product detail page', () => {
+    it('Test Case 8: Verify All Products and product detail page', () => {
         cy.visit('https://automationexercise.com/')
         cy.contains('Products').click()
 
@@ -131,6 +131,28 @@ describe('Automation Exercise', () => {
         cy.get('.product-information > h2').should('be.visible')
         cy.get('.product-information p').should('be.visible').and('have.length', 4)
         cy.get('.product-information span span').should('be.visible')
+
+    });
+
+    it('Test Case 9: Search Product', () => {
+        cy.visit('https://automationexercise.com/')
+        cy.contains('Products').click()
+
+        cy.url().should('contain', 'products')
+        cy.get('.title')
+            .should('be.visible')
+            .and('contain', 'All Products')
+
+        cy.get('input#search_product').type('Tshirt')
+        cy.get('button#submit_search').click()
+
+        cy.get('.title')
+            .should('be.visible')
+            .and('contain', 'Searched Products')
+
+        cy.get('.single-products')
+            .should('be.visible')
+            .and('have.length.at.least', 1)
 
     });
 
