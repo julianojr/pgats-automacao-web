@@ -1,5 +1,7 @@
 /// <reference types="cypress"/>
 
+import { faker } from '@faker-js/faker';
+
 describe('Automation Exercise', () => {
     it('Test Case 1: Cadastrar um usuário', () => {
         const timestamp = new Date().getTime()
@@ -154,6 +156,76 @@ describe('Automation Exercise', () => {
             .should('be.visible')
             .and('have.length.at.least', 1)
 
+    });
+
+    it('Test Case 10: Verify Subscription in home page', () => {
+        cy.visit('https://automationexercise.com/')
+
+        cy.get('footer .single-widget')
+            .should('contain', 'Subscription')
+
+        cy.get('input#susbscribe_email')
+            .scrollIntoView()
+            .type('tester-1721346302730@mail.com')
+
+        cy.get('button#subscribe').click()
+
+        cy.contains('You have been successfully subscribed!').should('be.visible')
+
+    });
+
+    it.only('Test Case 15: Place Order: Register before Checkout', () => {
+        const timestamp = new Date().getTime()
+        const nome = "Iron Man"
+
+        cy.visit('https://automationexercise.com')
+        cy.get('[href$=login]').click()
+        cy.get('[data-qa="signup-name"]').type(nome)
+        cy.get('[data-qa=signup-email]').type(`ironman${timestamp}@qa.com.br`)
+        cy.get('[data-qa="signup-button"]').click()
+        cy.get('input[type=radio]').eq(0).check();
+        cy.get('[data-qa="password"]').type('5r4s15sd5f1', { log: false });
+        cy.get('[data-qa=days]').select(25)
+        cy.get('[data-qa="months"]').select(5)
+        cy.get('[data-qa="years"]').select('1989')
+        cy.get('input[type=checkbox]#newsletter').check()
+        cy.get('input[type=checkbox]#optin').check()
+        cy.get('[data-qa="first_name"]').type('Tony')
+        cy.get('[data-qa="last_name"]').type('Stark')
+        cy.get('[data-qa="company"]').type('Stark Industries')
+        cy.get('[data-qa="address"]').type('XXXX')
+        cy.get('[data-qa="country"]').select('United States')
+        cy.get('[data-qa="state"]').type('California')
+        cy.get('[data-qa="city"]').type('Los Angeles')
+        cy.get('[data-qa="zipcode"]').type('8789498')
+        cy.get('[data-qa="mobile_number"]').type('378 98562-8781')
+        cy.get('[data-qa="create-account"]').click()
+        cy.get('b')
+            .should('contain', 'Account Created!')
+        cy.url().should('includes', 'account_created')
+        cy.get('[data-qa="account-created"]')
+            .should('be.visible')
+        cy.get('[data-qa="continue-button"]').click()
+        cy.get('b').should('contain', nome)
+        cy.contains("Add to cart").click()
+        cy.contains("View Cart").click()
+        cy.get('.btn-default.check_out').should('be.visible')
+        cy.get('.btn-default.check_out').click()
+        cy.get('.heading').should('contain', 'Address Details')
+        cy.get('.heading').should('contain', 'Review Your Order')
+        cy.get('.form-control').type('378 98562-8781')
+        cy.get('.btn-default.check_out').click()
+        cy.get('[data-qa="name-on-card"]').type(faker.person.fullName())
+        cy.get('[data-qa="card-number"]').type(faker.finance.creditCardNumber())
+        cy.get('[data-qa="cvc"]').type(faker.finance.creditCardCVV())
+        cy.get('[data-qa="expiry-month"]').type(12)
+        cy.get('[data-qa="expiry-year"]').type(2035)
+        cy.get('[data-qa="pay-button"]').click()
+        cy.get('[data-qa="order-placed"]').should('be.visible')
+        cy.get('[href *="delete"]').click()
+        cy.get('b').should('contain', 'Account Deleted!')
+        cy.get('[data-qa="continue-button"]').click()
+    
     });
 
 });
