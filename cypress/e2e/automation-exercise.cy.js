@@ -89,7 +89,7 @@ describe('Automation Exercise', () => {
             .and('contain', 'Email Address already exist!')
     });
 
-    it.only('Test Case 6: Contact Us Form', () => {
+    it('Test Case 6: Contact Us Form', () => {
         cy.visit('https://automationexercise.com/')
         cy.contains('Contact us').click()
 
@@ -107,6 +107,31 @@ describe('Automation Exercise', () => {
         cy.get('[data-qa="submit-button"]').click()
 
         cy.get('.status').should('have.text', 'Success! Your details have been submitted successfully.');
+    });
+
+    it.only('Test Case 8: Verify All Products and product detail page', () => {
+        cy.visit('https://automationexercise.com/')
+        cy.contains('Products').click()
+
+        cy.url().should('contain', 'products')
+        cy.get('.title')
+            .should('be.visible')
+            .and('contain', 'All Products')
+
+        cy.get('.single-products')
+            .should('be.visible')
+            .and('have.length.at.least', 1)
+            .first()
+            .parent()
+            .contains('View Product')
+            .click()
+
+        cy.url().should('contain', 'product_details/1')
+
+        cy.get('.product-information > h2').should('be.visible')
+        cy.get('.product-information p').should('be.visible').and('have.length', 4)
+        cy.get('.product-information span span').should('be.visible')
+
     });
 
 });
