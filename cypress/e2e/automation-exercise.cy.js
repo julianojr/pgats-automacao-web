@@ -174,10 +174,10 @@ describe('Automation Exercise', () => {
 
     });
 
-    it.only('Test Case 15: Place Order: Register before Checkout', () => {
+    it('Test Case 15: Place Order: Register before Checkout', () => {
         const timestamp = new Date().getTime()
         const nome = "Iron Man"
-
+    
         cy.visit('https://automationexercise.com')
         cy.get('[href$=login]').click()
         cy.get('[data-qa="signup-name"]').type(nome)
@@ -201,18 +201,18 @@ describe('Automation Exercise', () => {
         cy.get('[data-qa="mobile_number"]').type('378 98562-8781')
         cy.get('[data-qa="create-account"]').click()
         cy.get('b')
-            .should('contain', 'Account Created!')
+          .should('contain', 'Account Created!')
         cy.url().should('includes', 'account_created')
         cy.get('[data-qa="account-created"]')
-            .should('be.visible')
+          .should('be.visible')
         cy.get('[data-qa="continue-button"]').click()
         cy.get('b').should('contain', nome)
         cy.contains("Add to cart").click()
         cy.contains("View Cart").click()
         cy.get('.btn-default.check_out').should('be.visible')
         cy.get('.btn-default.check_out').click()
-        cy.get('.heading').should('contain', 'Address Details')
-        cy.get('.heading').should('contain', 'Review Your Order')
+        cy.get('.heading').first().should('have.text', 'Address Details')
+        cy.get('.heading').last().should('have.text', 'Review Your Order')
         cy.get('.form-control').type('378 98562-8781')
         cy.get('.btn-default.check_out').click()
         cy.get('[data-qa="name-on-card"]').type(faker.person.fullName())
