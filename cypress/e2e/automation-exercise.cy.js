@@ -26,8 +26,8 @@ describe('Automation Exercise', () => {
         menu.irParaLoginCadastro();
     
         login.fazerLogin('tester-1721346302730@mail.com', '12345');
-    
-        cy.get('i.fa-user').parent().should('contain', 'Tester QA');
+
+        menu.verificarNomeDoUsuarioLogado('Tester QA');
     });
 
     it('Test Case 3: Login User with incorrect email and password', () => {
@@ -43,12 +43,11 @@ describe('Automation Exercise', () => {
     
         login.fazerLogin('tester-1721346302730@mail.com', '12345');
 
-        cy.get('i.fa-user').parent().should('contain', 'Tester QA');
+        menu.verificarNomeDoUsuarioLogado('Tester QA');
 
         menu.fazerLogout();
     
-        cy.url().should('contain', 'https://automationexercise.com/login');
-        cy.contains("Login to your account").should("be.visible");
+        login.verificarPaginaLogin();
     });
 
     it('Test Case 5: Register user with existing email', () => {
@@ -94,10 +93,10 @@ describe('Automation Exercise', () => {
 
         cadastro.preencherFormulario();
 
-        cy.contains("Add to cart").click();
-        cy.contains("View Cart").click();
-
-        checkout.fazerCheckout();
+        checkout
+            .inserirProdutoNoCarrinho()
+            .visualizarCarrinho()
+            .fazerCheckout();
 
         pagamento
             .preencherFormulario()

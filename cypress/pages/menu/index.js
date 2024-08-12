@@ -35,6 +35,12 @@ class Menu{
 
         return this;
     }
+
+    verificarNomeDoUsuarioLogado(nome){
+        cy.get('i.fa-user').parent().should('contain', nome);
+
+        return this;
+    }
 }
 
 export default new Menu()

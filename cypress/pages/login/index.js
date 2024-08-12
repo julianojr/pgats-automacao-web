@@ -13,6 +13,13 @@ class Login{
 
         return this;
     }
+
+    verificarPaginaLogin(){
+        cy.url().should('contain', 'https://automationexercise.com/login');
+        cy.contains("Login to your account").should("be.visible");
+
+        return this;
+    }
 }
 
 export default new Login()
